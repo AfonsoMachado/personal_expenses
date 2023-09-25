@@ -38,9 +38,11 @@ class MyHomePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Despesas Pessoais'),
       ),
-      body: const Column(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(
+          const SizedBox(
             width: double.infinity,
             child: Card(
               color: Colors.blue,
@@ -48,9 +50,14 @@ class MyHomePage extends StatelessWidget {
               child: Text('Gráfico'),
             ),
           ),
-          Card(
-            elevation: 5,
-            child: Text('Lista'),
+          Column(
+            children: [
+              ..._transactions.map((tr) {
+                return Card(
+                  child: Text(tr.title),
+                );
+              }).toList()
+            ],
           )
         ],
       ),
