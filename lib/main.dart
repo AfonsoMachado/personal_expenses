@@ -51,20 +51,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _transactions = [
-    Transaction(
-      id: 't1',
-      title: 'Tênis',
-      value: 90.76,
-      date: DateTime.now().subtract(const Duration(days: 3)),
-    ),
-    Transaction(
-      id: 't2',
-      title: 'Chhinelo',
-      value: 390.76,
-      date: DateTime.now().subtract(const Duration(days: 4)),
-    ),
-  ];
+  final List<Transaction> _transactions = [];
 
   // Capturando somente as transações mais recentes, depois da data passada
   List<Transaction> get _recentTransactions {
@@ -74,12 +61,12 @@ class _MyHomePageState extends State<MyHomePage> {
         .toList();
   }
 
-  _addTransaction(String title, double value) {
+  _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
       title: title,
       value: value,
-      date: DateTime.now(),
+      date: date,
     );
 
     // Quando um estado mudo, a árvore de componentes tambem muda automaticamente
