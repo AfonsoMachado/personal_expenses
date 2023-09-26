@@ -26,7 +26,7 @@ class Chart extends StatelessWidget {
 
       // Pegando a primeira letra do dia da semana
       return {'day': DateFormat.E().format(weekDay)[0], 'value': amount};
-    });
+    }).reversed.toList();
   }
 
   double get _weekAmount {
