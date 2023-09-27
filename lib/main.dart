@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -96,15 +97,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     // Está no modo paisagem
-    bool isLandscape =
-        MediaQuery.of(context).orientation == Orientation.landscape;
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
 
     final appBar = AppBar(
       title: Text(
         'Despesas Pessoais',
         // Tamanho dinamico da fonte
-        style: TextStyle(fontSize: 20 * MediaQuery.of(context).textScaleFactor),
+        style: TextStyle(fontSize: 20 * mediaQuery.textScaleFactor),
       ),
       actions: [
         if (isLandscape)
@@ -123,9 +124,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
     // Altura disponivel subtraindo a altura do appbar e a altura da navbar do dispositivo
-    final availableHeight = MediaQuery.of(context).size.height -
+    final availableHeight = mediaQuery.size.height -
         appBar.preferredSize.height -
-        MediaQuery.of(context).padding.top;
+        mediaQuery.padding.top;
 
     return Scaffold(
       appBar: appBar,
@@ -144,10 +145,12 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _openTransactionFormModal(context),
-        child: const Icon(Icons.add, color: Colors.black),
-      ),
+      floatingActionButton: Platform.isIOS
+          ? Container()
+          : FloatingActionButton(
+              onPressed: () => _openTransactionFormModal(context),
+              child: const Icon(Icons.add, color: Colors.black),
+            ),
     );
   }
 }
