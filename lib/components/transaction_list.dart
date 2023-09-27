@@ -5,8 +5,9 @@ import '../models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
+  final void Function(String) onRemove;
 
-  const TransactionList(this.transactions, {super.key});
+  const TransactionList(this.transactions, this.onRemove, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +63,30 @@ class TransactionList extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     subtitle: Text(DateFormat('d MMM y').format(tr.date)),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      color: Theme.of(context).colorScheme.error,
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                                  title: const Text('Excluir transação'),
+                                  content: const Text('Tem certeza?'),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(),
+                                        child: const Text('Não')),
+                                    TextButton(
+                                        onPressed: () {
+                                          onRemove(tr.id);
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('Sim'))
+                                  ],
+                                ));
+                      },
+                    ),
                   ),
                 );
               },
