@@ -11,6 +11,26 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _showRemoveTransactionDialog(Transaction tr) {
+      return showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text('Excluir transação'),
+                content: const Text('Tem certeza?'),
+                actions: [
+                  TextButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      child: const Text('Não')),
+                  TextButton(
+                      onPressed: () {
+                        onRemove(tr.id);
+                        Navigator.of(context).pop();
+                      },
+                      child: const Text('Sim'))
+                ],
+              ));
+    }
+
     return transactions.isEmpty
         ? LayoutBuilder(
             builder: (BuildContext context, BoxConstraints constraints) {
@@ -62,30 +82,20 @@ class TransactionList extends StatelessWidget {
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   subtitle: Text(DateFormat('d MMM y').format(tr.date)),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    color: Theme.of(context).colorScheme.error,
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (ctx) => AlertDialog(
-                                title: const Text('Excluir transação'),
-                                content: const Text('Tem certeza?'),
-                                actions: [
-                                  TextButton(
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                      child: const Text('Não')),
-                                  TextButton(
-                                      onPressed: () {
-                                        onRemove(tr.id);
-                                        Navigator.of(context).pop();
-                                      },
-                                      child: const Text('Sim'))
-                                ],
-                              ));
-                    },
-                  ),
+                  trailing: MediaQuery.of(context).size.width > 400
+                      ? TextButton.icon(
+                          onPressed: () => _showRemoveTransactionDialog(tr),
+                          icon: Icon(Icons.delete,
+                              color: Theme.of(context).colorScheme.error),
+                          label: Text('Excluir!',
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.error)),
+                        )
+                      : IconButton(
+                          icon: const Icon(Icons.delete),
+                          color: Theme.of(context).colorScheme.error,
+                          onPressed: () => _showRemoveTransactionDialog(tr),
+                        ),
                 ),
               );
             },
