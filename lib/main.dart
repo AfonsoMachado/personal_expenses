@@ -95,7 +95,11 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final appBar = AppBar(
-      title: const Text('Despesas Pessoais'),
+      title: Text(
+        'Despesas Pessoais',
+        // Tamanho dinamico da fonte
+        style: TextStyle(fontSize: 20 * MediaQuery.of(context).textScaleFactor),
+      ),
       actions: [
         IconButton(
           onPressed: () => _openTransactionFormModal(context),
